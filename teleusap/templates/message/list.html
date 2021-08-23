@@ -1,0 +1,16 @@
+{% extends '../base.html' %}
+{% block title %}Messages{% endblock %}
+{% block content %}
+	<h2>Messages</h2>
+	{% for message in messages %}
+		{% for m in message.message_set.all|slice:":1"%}
+			{% if m.messager == request.user or m.receiver == request.user %}
+				{% if m.messager == request.user %}
+					<a href="{{ message.get_absolute_url }}">{{ m.receiver }}</a></br></br>
+				{% else %}
+					<a href="{{ message.get_absolute_url }}">{{ m.messager }}</a></br></br>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+{% endblock %}

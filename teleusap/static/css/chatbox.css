@@ -1,0 +1,17 @@
+.chat_box {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+.container{
+	background: #FFFFFF;
+	padding: 1rem;
+	border: 1px solid gray;
+	border-radius: .4rem;
+}
+.messager {
+	background-color: lightgrey;
+}
+

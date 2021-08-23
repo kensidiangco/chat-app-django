@@ -1,0 +1,40 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Chatbox{% endblock %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/chatbox.css' %}">
+{% endblock %}
+{% block content %}
+	<h2>Chat box</h2>
+	<div class="chat_box">
+		<div class="container">
+			{% for message in messages.message_set.all %}
+				{% if request.user == message.messager %}
+					<div class="messager">
+						<p>{{ message.message }}</p>
+						<small>{{ message.created }}</small>
+					</div>
+				{% else %}
+					<div class="receiver">
+						<p style="color:blue;">{{ message.message }}</p>
+						<small>{{ message.created }}</small>
+					</div>	
+				{% endif %}
+				{% empty %}
+				<p>No chats.</p>
+			{% endfor %}
+			<form method="POST">
+				{% csrf_token %}
+				{{form.message}}
+				{% for message in messages.message_set.all %}
+					{% if message.messager == request.user %}
+						<input type="hidden" name="receiver" value="{{ message.receiver.id }}">
+					{% else %}
+						<input type="hidden" name="receiver" value="{{ message.messager.id }}">
+					{% endif %}
+				{% endfor %}
+				<input type="submit" value="Send">
+			</form>
+		</div>
+	</div>
+{% endblock %}
